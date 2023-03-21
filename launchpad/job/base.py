@@ -1,11 +1,6 @@
 import os
 import uuid
-import re
-import pkgutil
-import pandas as pd
-from cachetools.func import ttl_cache
 from subprocess import (check_call, 
-                        check_output,
                         CalledProcessError)
 
 
@@ -13,6 +8,7 @@ class BaseJob:
     def __init__(self, config):
         self._meta = config.meta
         self._hp = config.hp
+        self._fixed = config.fixed
         self._sbatch = config.sbatch
         self._nni = config.nni
         self._src_path = config.src_path
@@ -70,7 +66,9 @@ class BaseJob:
         executor, script_path, args = self._parse_script()
         self._code_dir = os.path.dirname(script_path)
         self._exec_line = " ".join([executor, script_path] + args \
-                + [f"--{k} {v}" for k, v in self._hp.items()])
+                + [f"--{k} {v} " for k, v in self._hp.items()])
+        if self._fixed:
+            self._exec_line += " ".join([f"--{k} {v}" for k, v in self._fixed.items()])
         self._exec_line_display = self._exec_line
         
     def _get_exp_name(self): 

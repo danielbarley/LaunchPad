@@ -48,6 +48,10 @@ class Config:
         os.makedirs(self.meta.nni_dir, exist_ok=True) 
 
         self.hp = Args(_config['hp'])
+        if 'fixed' in _config:
+            self.fixed = Args(_config['fixed'])
+        else:
+            self.fixed = None
         if 'sbatch' in _config:
             self.sbatch = Args(_config['sbatch'])
         else:
