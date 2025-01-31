@@ -13,11 +13,7 @@ LaunchPad is a light-weighted Slurm job launcher designed for hyper-parameter se
 
 ## Installation 
 ```
- pip install launch-pad
-```
-or
-```
- pip install git+https://github.com/stanfordmlgroup/LaunchPad.git
+ pip install git+https://github.com/danielbarley/LaunchPad.git
 ```
 
 ## Config file and example usage
@@ -31,6 +27,9 @@ hp:
   optimizer:
     - SGD
     - Adam
+fixed:
+  batchsize: 32
+  imagesize: 224
 meta:
   gpus: 1
   mode: grid
